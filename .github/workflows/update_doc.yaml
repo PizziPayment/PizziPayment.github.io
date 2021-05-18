@@ -2,22 +2,16 @@ name: Update documentation
 on:
   repository_dispatch:
     types: update
-  push:
-    branches:
-      - test
 
 jobs:
   update-doc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: 'test'
-          fetch-depth: '0'
       - uses: actions/checkout@v2
         with:
           repository: PizziPayment/PizziAPI
-          ref: Documentation
+          ref: master
           path: doc
           ssh-key: ${{ secrets.SSH_KEY }}
       - uses: actions/setup-node@v2
@@ -31,5 +25,4 @@ jobs:
           git config --local user.name "GitHub Action"
       - run: git add ./index.html
       - run: git commit -m "Update documentation"
-      - run: git log
       - run: git push origin test
