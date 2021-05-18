@@ -28,4 +28,5 @@ jobs:
           git config --local user.name "GitHub Action"
       - run: git add ./index.html
       - run: git commit -m "Update documentation"
+      - run: git log
       - run: git push origin test
