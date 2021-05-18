@@ -2,6 +2,9 @@ name: Update documentation
 on:
   repository_dispatch:
     types: update
+  push:
+    branches:
+      - test
 
 jobs:
   update-doc:
