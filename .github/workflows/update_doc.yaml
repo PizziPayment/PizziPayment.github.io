@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm -g install redoc-cli
-      - run: redoc-cli bundle doc/OpenAPI/pizzi_api.yaml -o index.html
+      - run: redoc-cli bundle doc/documentation/pizzi_api.yaml -o index.html
       - run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
