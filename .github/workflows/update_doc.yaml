@@ -3,13 +3,14 @@ on:
   repository_dispatch:
 
 jobs:
-  update-doc:
+  update-resource-server-documentation:
+    if: ${{ github.client_payload.server == 'resource-server' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/checkout@v2
         with:
-          repository: PizziPayment/PizziAPI
+          repository: PizziPayment/PizziResourceServer
           ref: master
           path: doc
           ssh-key: ${{ secrets.SSH_KEY }}
@@ -17,10 +18,32 @@ jobs:
         with:
           node-version: '14'
       - run: npm -g install redoc-cli
-      - run: redoc-cli bundle doc/documentation/pizzi_api.yaml -o index.html
+      - run: redoc-cli bundle doc/documentation/pizzi_api.yaml -o resource-server.html
       - run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-      - run: git add ./index.html
-      - run: git commit -m "Update documentation"
+      - run: git add ./resource-server.html
+      - run: git commit -m "Update resource server documentation."
+      - run: git push origin main
+
+  update-authorization-server-documentation:
+    if: ${{ github.client_payload.server == 'authorization-server' }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          repository: PizziPayment/PizziAuthorizationServer
+          ref: master
+          path: doc
+          ssh-key: ${{ secrets.SSH_KEY }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm -g install redoc-cli
+      - run: redoc-cli bundle doc/documentation/pizzi_api.yaml -o authorization-server.html
+      - run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - run: git add ./authorization-server.html
+      - run: git commit -m "Update authorization server documentation."
       - run: git push origin main
