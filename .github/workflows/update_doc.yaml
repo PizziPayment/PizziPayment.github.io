@@ -28,6 +28,7 @@ jobs:
 
   update-authorization-server-documentation:
     if: ${{ github.client_payload.server == 'authorization-server' }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/checkout@v2
