@@ -4,7 +4,7 @@ on:
 
 jobs:
   update-resource-server-documentation:
-    if: ${{ github.client_payload.server == 'resource-server' }}
+    if: ${{ github.event.client_payload.repo == 'resource-server' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm -g install redoc-cli
-      - run: redoc-cli bundle doc/documentation/pizzi_api.yaml -o resource-server.html
+      - run: redoc-cli bundle doc/documentation/openapi.yaml -o resource-server.html
       - run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -27,7 +27,7 @@ jobs:
       - run: git push origin main
 
   update-authorization-server-documentation:
-    if: ${{ github.client_payload.server == 'authorization-server' }}
+    if: ${{ github.event.client_payload.repo == 'authorization-server' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm -g install redoc-cli
-      - run: redoc-cli bundle doc/documentation/pizzi_api.yaml -o authorization-server.html
+      - run: redoc-cli bundle doc/documentation/openapi.yaml -o authorization-server.html
       - run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
