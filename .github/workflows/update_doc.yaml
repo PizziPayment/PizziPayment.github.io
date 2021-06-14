@@ -36,7 +36,7 @@ jobs:
           repository: PizziPayment/PizziAuthorizationServer
           ref: master
           path: doc
-          ssh-key: ${{ secrets.SSH_KEY }}
+          token: ${{ secrets.ACCESS_TOKEN }}
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
