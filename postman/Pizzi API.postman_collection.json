@@ -242,6 +242,119 @@
 					"name": "Users",
 					"item": [
 						{
+							"name": "Update",
+							"item": [
+								{
+									"name": "Place",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{user1_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"place\": {\n        \"address\": \"Le département, 3ème étage, bureau 456\",\n        \"city\": \"Paris\",\n        \"zipcode\": 71700\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{rsc_base_url}}/users",
+											"host": [
+												"{{rsc_base_url}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Surname",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{user1_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"surname\": \"Guilhain\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{rsc_base_url}}/users",
+											"host": [
+												"{{rsc_base_url}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "name",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{user1_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"Gudrun Prrrrrt\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{rsc_base_url}}/users",
+											"host": [
+												"{{rsc_base_url}}"
+											],
+											"path": [
+												"users"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "Register",
 							"request": {
 								"auth": {
@@ -341,110 +454,110 @@
 							"response": []
 						}
 					]
-				}
-			]
-		},
-		{
-			"name": "Shops",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{client_secret}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{client_id}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"{{shop1_name}}\",\n    \"place\": {\n        \"address\": \"{{shop1_address}}\",\n        \"city\": \"{{shop1_city}}\",\n        \"zipcode\": \"{{shop1_zipcode}}\"\n    },\n    \"email\": \"{{shop1_email}}\",\n    \"phone\": \"{{shop1_phone}}\",\n    \"password\": \"{{shop1_password}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{rsc_base_url}}/shops",
-							"host": [
-								"{{rsc_base_url}}"
-							],
-							"path": [
-								"shops"
-							]
-						}
-					},
-					"response": []
 				},
 				{
-					"name": "Delete",
-					"event": [
+					"name": "Shops",
+					"item": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
+							"name": "Register",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "{{client_secret}}",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "{{client_id}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{shop1_name}}\",\n    \"place\": {\n        \"address\": \"{{shop1_address}}\",\n        \"city\": \"{{shop1_city}}\",\n        \"zipcode\": \"{{shop1_zipcode}}\"\n    },\n    \"email\": \"{{shop1_email}}\",\n    \"phone\": \"{{shop1_phone}}\",\n    \"password\": \"{{shop1_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops"
+									]
+								}
+							},
+							"response": []
 						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"if (pm.response.code == 204) {",
-									"    pm.environment.set(\"shop1_token\", null);",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"name": "Delete",
+							"event": [
 								{
-									"key": "token",
-									"value": "{{shop1_token}}",
-									"type": "string"
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 204) {",
+											"    pm.environment.set(\"shop1_token\", null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
 								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"password\": \"{{shop1_password}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{rsc_base_url}}/shops",
-							"host": [
-								"{{rsc_base_url}}"
 							],
-							"path": [
-								"shops"
-							]
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{shop1_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"{{shop1_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
