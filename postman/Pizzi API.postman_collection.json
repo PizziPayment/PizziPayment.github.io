@@ -19,9 +19,11 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"let response = pm.response.json();",
+											"if (pm.response.code == 200) {",
+											"    let response = pm.response.json();",
 											"",
-											"pm.environment.set(\"user1_token\", response.access_token);"
+											"    pm.environment.set(\"user1_token\", response.access_token);",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -65,12 +67,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{auth_base_url}}/auth/user/login",
+									"raw": "{{auth_base_url}}/user/login",
 									"host": [
 										"{{auth_base_url}}"
 									],
 									"path": [
-										"auth",
 										"user",
 										"login"
 									]
@@ -108,12 +109,11 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{auth_base_url}}/auth/logout",
+									"raw": "{{auth_base_url}}/logout",
 									"host": [
 										"{{auth_base_url}}"
 									],
 									"path": [
-										"auth",
 										"logout"
 									]
 								}
@@ -141,9 +141,11 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"let response = pm.response.json();",
+											"if (pm.response.code == 200) {",
+											"    let response = pm.response.json();",
 											"",
-											"pm.environment.set(\"shop1_token\", response.access_token);"
+											"    pm.environment.set(\"shop1_token\", response.access_token);",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -177,12 +179,11 @@
 									}
 								},
 								"url": {
-									"raw": "{{auth_base_url}}/auth/shop/login",
+									"raw": "{{auth_base_url}}/shop/login",
 									"host": [
 										"{{auth_base_url}}"
 									],
 									"path": [
-										"auth",
 										"shop",
 										"login"
 									]
@@ -219,12 +220,11 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{auth_base_url}}/auth/logout",
+									"raw": "{{auth_base_url}}/logout",
 									"host": [
 										"{{auth_base_url}}"
 									],
 									"path": [
-										"auth",
 										"logout"
 									]
 								}
@@ -247,16 +247,6 @@
 								{
 									"name": "Place",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{user1_token}}",
-													"type": "string"
-												}
-											]
-										},
 										"method": "PATCH",
 										"header": [],
 										"body": {
@@ -283,16 +273,6 @@
 								{
 									"name": "Surname",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{user1_token}}",
-													"type": "string"
-												}
-											]
-										},
 										"method": "PATCH",
 										"header": [],
 										"body": {
@@ -317,18 +297,8 @@
 									"response": []
 								},
 								{
-									"name": "name",
+									"name": "Name",
 									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{user1_token}}",
-													"type": "string"
-												}
-											]
-										},
 										"method": "PATCH",
 										"header": [],
 										"body": {
@@ -420,16 +390,6 @@
 								}
 							],
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{user1_token}}",
-											"type": "string"
-										}
-									]
-								},
 								"method": "DELETE",
 								"header": [],
 								"body": {
@@ -452,6 +412,122 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Change password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 204) {",
+											"    pm.environment.set(\"user1_token\", null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"{{user1_password}}\",\n    \"new_password\": \"{{user1_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/users/me/password",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/users",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change email",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"{{user1_password}}\",\n    \"new_email\": \"{{user1_email}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/users/me/email",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"email"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{user1_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				},
@@ -524,16 +600,6 @@
 								}
 							],
 							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{shop1_token}}",
-											"type": "string"
-										}
-									]
-								},
 								"method": "DELETE",
 								"header": [],
 								"body": {
@@ -556,6 +622,326 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Change email",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"{{shop1_password}}\",\n    \"new_email\": \"{{shop1_email}}\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/email",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get shop info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/shops",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 204) {",
+											"    pm.environment.set(\"shop1_token\", null);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{shop1_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"{{shop1_password}}\",\n    \"new_password\": \"{{shop1_password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{shop1_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Shop item",
+					"item": [
+						{
+							"name": "Create shop items",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 201) {",
+											"    let response = pm.response.json();",
+											"",
+											"    pm.environment.set(\"shop_item_id\", response.items[0].id);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"items\": [\n        {\n            \"name\": \"cultivator\",\n            \"price\": 346\n        },\n        {\n            \"name\": \"red wheelbarrow\",\n            \"price\": 100\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/items",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get shop items",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/items?page=1&nb_items=4&query=&sort_by=name&order=desc",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"items"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "nb_items",
+											"value": "4"
+										},
+										{
+											"key": "query",
+											"value": ""
+										},
+										{
+											"key": "sort_by",
+											"value": "name"
+										},
+										{
+											"key": "order",
+											"value": "desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update shop item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 200) {",
+											"    let response = pm.response.json();",
+											"",
+											"    pm.environment.set(\"shop_item_id\", response.id);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"potato\",\n    \"price\": \"452\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/items/{{shop_item_id}}",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"items",
+										"{{shop_item_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete shop item",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 204) {",
+											"    pm.environment.unset(\"shop_item_id\");",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/items/{{shop_item_id}}",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"items",
+										"{{shop_item_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{shop1_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				}
