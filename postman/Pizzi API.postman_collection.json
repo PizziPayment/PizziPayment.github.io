@@ -652,7 +652,7 @@
 							"response": []
 						},
 						{
-							"name": "Get shop info",
+							"name": "Get shop infos",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -716,6 +716,32 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Update shop infos",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"New description\",\n    \"website\": \"https://example.com\",\n    \"instagram\": \"https://instagram.com\",\n    \"twitter\": \"https://twitter.com/Twitter\",\n    \"facebook\": \"https://facebook.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"auth": {
@@ -750,7 +776,7 @@
 					]
 				},
 				{
-					"name": "Shop item",
+					"name": "Shop items",
 					"item": [
 						{
 							"name": "Create shop items",
@@ -899,7 +925,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{rsc_base_url}}/shops/me/items/{{shop_item_id}}",
+									"raw": "{{rsc_base_url}}/shops/me/items/32",
 									"host": [
 										"{{rsc_base_url}}"
 									],
@@ -907,7 +933,7 @@
 										"shops",
 										"me",
 										"items",
-										"{{shop_item_id}}"
+										"32"
 									]
 								}
 							},
@@ -920,6 +946,88 @@
 							{
 								"key": "token",
 								"value": "{{shop1_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Receipts",
+					"item": [
+						{
+							"name": "List receipts",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/receipts",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"receipts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Receipt details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/receipts/1",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"receipts",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{user1_token}}",
 								"type": "string"
 							}
 						]
