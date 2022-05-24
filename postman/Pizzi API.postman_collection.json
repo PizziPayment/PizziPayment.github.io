@@ -3,7 +3,8 @@
 		"_postman_id": "824f54cd-49b0-4096-95ca-ec9a2333d910",
 		"name": "Pizzi API",
 		"description": "Version:\n  - Authorization server: `6c9c275baf22b3febe03d9c4c679982150fb2d06`\n  - Resource server: `e0e2ef5498fdaad6ebbe8ded3e93701405dc94c0`",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13732435"
 	},
 	"item": [
 		{
@@ -498,6 +499,88 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Take transaction",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{tmp_transaction_id}},\n    \"token\": \"{{tmp_transaction_token}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/users/me/transactions",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List receipts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 200) {",
+											"    let response = pm.response.json();",
+											"",
+											"    pm.environment.set(\"user_receipt1_id\", response[0].receipt_id);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/users/me/receipts",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"receipts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Receipt details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/users/me/receipts/{{user_receipt1_id}}",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"receipts",
+										"{{user_receipt1_id}}"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"auth": {
@@ -556,7 +639,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"{{shop1_name}}\",\n    \"place\": {\n        \"address\": \"{{shop1_address}}\",\n        \"city\": \"{{shop1_city}}\",\n        \"zipcode\": \"{{shop1_zipcode}}\"\n    },\n    \"email\": \"{{shop1_email}}\",\n    \"phone\": \"{{shop1_phone}}\",\n    \"password\": \"{{shop1_password}}\"\n}",
+									"raw": "{\n    \"name\": \"{{shop1_name}}\",\n    \"place\": {\n        \"address\": \"{{shop1_address}}\",\n        \"city\": \"{{shop1_city}}\",\n        \"zipcode\": \"{{shop1_zipcode}}\"\n    },\n    \"email\": \"{{shop1_email}}\",\n    \"phone\": \"{{shop1_phone}}\",\n    \"password\": \"{{shop1_password}}\",\n    \"siret\": \"43014643100019\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -742,6 +825,104 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "List receipts",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 200) {",
+											"    let response = pm.response.json();",
+											"",
+											"    pm.environment.set(\"shop_receipt1_id\", response[0].receipt_id);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/receipts",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"receipts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get receipt details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/receipts/<id>",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"receipts",
+										"<id>"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create transaction",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 201) {",
+											"    let response = pm.response.json();",
+											"",
+											"    pm.environment.set(\"tmp_transaction_id\", response.id);",
+											"    pm.environment.set(\"tmp_transaction_token\", response.token);",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tva_percentage\": 20,\n    \"total_price\": 1584.00,\n    \"payment_method\": \"cash\",\n    \"items\": [\n        {\n            \"shop_item_id\": {{shop_item_id1}},\n            \"discount\": 0,\n            \"eco_tax\": 0,\n            \"quantity\": 4,\n            \"warranty\": \"Y'a pas\"\n        },\n        {\n            \"shop_item_id\": {{shop_item_id2}},\n            \"discount\": 0,\n            \"eco_tax\": 0,\n            \"quantity\": 2,\n            \"warranty\": \"Y'a pas\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/transactions",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"transactions"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"auth": {
@@ -788,7 +969,8 @@
 											"if (pm.response.code == 201) {",
 											"    let response = pm.response.json();",
 											"",
-											"    pm.environment.set(\"shop_item_id\", response.items[0].id);",
+											"    pm.environment.set(\"shop_item_id1\", response.items[0].id);",
+											"    pm.environment.set(\"shop_item_id2\", response.items[1].id);",
 											"}"
 										],
 										"type": "text/javascript"
@@ -827,7 +1009,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{rsc_base_url}}/shops/me/items?page=1&nb_items=4&query=&sort_by=name&order=desc",
+									"raw": "{{rsc_base_url}}/shops/me/items?page=1&nb_items=24&query=&sort_by=date&order=asc",
 									"host": [
 										"{{rsc_base_url}}"
 									],
@@ -843,7 +1025,7 @@
 										},
 										{
 											"key": "nb_items",
-											"value": "4"
+											"value": "24"
 										},
 										{
 											"key": "query",
@@ -851,11 +1033,11 @@
 										},
 										{
 											"key": "sort_by",
-											"value": "name"
+											"value": "date"
 										},
 										{
 											"key": "order",
-											"value": "desc"
+											"value": "asc"
 										}
 									]
 								}
@@ -972,10 +1154,10 @@
 					]
 				},
 				{
-					"name": "Receipts",
+					"name": "Transactions",
 					"item": [
 						{
-							"name": "List receipts",
+							"name": "List transactions",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -984,7 +1166,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -992,30 +1174,100 @@
 									}
 								},
 								"url": {
-									"raw": "{{rsc_base_url}}/receipts",
+									"raw": "{{rsc_base_url}}/transactions?state=validated",
 									"host": [
 										"{{rsc_base_url}}"
 									],
 									"path": [
-										"receipts"
+										"transactions"
+									],
+									"query": [
+										{
+											"key": "state",
+											"value": "validated"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Receipt details",
+							"name": "Init transaction",
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 23,\n    \"receipt_id\": 35,\n    \"user_id\": 1,\n    \"shop_id\": 3,\n    \"payment_method\": \"cash\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{rsc_base_url}}/receipts/1",
+									"raw": "{{rsc_base_url}}/transactions",
 									"host": [
 										"{{rsc_base_url}}"
 									],
 									"path": [
-										"receipts",
-										"1"
+										"transactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/transactions/<id>/user",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"transactions",
+										"<id>",
+										"user"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update payment method",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"payment_method\": \"card\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/transactions/<id>/payment_method",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"transactions",
+										"<id>",
+										"payment_method"
 									]
 								}
 							},
@@ -1027,7 +1279,68 @@
 						"bearer": [
 							{
 								"key": "token",
-								"value": "{{user1_token}}",
+								"value": "{{shop1_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Payments",
+					"item": [
+						{
+							"name": "Proceed Payment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"transaction_id\": {{tmp_transaction_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/payments",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"payments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{shop1_token}}",
 								"type": "string"
 							}
 						]
