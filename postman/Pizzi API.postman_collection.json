@@ -903,7 +903,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"tva_percentage\": 20,\n    \"total_price\": 1584.00,\n    \"payment_method\": \"cash\",\n    \"items\": [\n        {\n            \"shop_item_id\": {{shop_item_id1}},\n            \"discount\": 0,\n            \"eco_tax\": 0,\n            \"quantity\": 4,\n            \"warranty\": \"Y'a pas\"\n        },\n        {\n            \"shop_item_id\": {{shop_item_id2}},\n            \"discount\": 0,\n            \"eco_tax\": 0,\n            \"quantity\": 2,\n            \"warranty\": \"Y'a pas\"\n        }\n    ]\n}",
+									"raw": "{\n    \"tva_percentage\": 20,\n    \"total_price\": \"1584.00\",\n    \"payment_method\": \"cash\",\n    \"items\": [\n        {\n            \"shop_item_id\": {{shop_item_id1}},\n            \"discount\": 0,\n            \"eco_tax\": 0,\n            \"quantity\": 4,\n            \"warranty\": \"Y'a pas\"\n        },\n        {\n            \"shop_item_id\": {{shop_item_id2}},\n            \"discount\": 0,\n            \"eco_tax\": 0,\n            \"quantity\": 2,\n            \"warranty\": \"Y'a pas\"\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
