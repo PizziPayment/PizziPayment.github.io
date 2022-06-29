@@ -36,15 +36,21 @@ jobs:
           repository: PizziPayment/PizziAuthorizationServer
           ref: master
           path: doc
-          token: ${{ secrets.ACCESS_TOKEN }}
+          ssh-key: ${{ secrets.SSH_KEY }}
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-      - run: npm -g install redoc-cli
-      - run: redoc-cli bundle doc/documentation/openapi.yaml -o authorization-server.html
+          node-version: '16'
+      - name: Install documentation dependencies
+        working-directory: ./doc
+        run: yarn install
+      - name: Build documentation
+        working-directory: ./doc
+        run: yarn run builder
+      - name: Move documentation
+        run: mv "doc/documentation/index.html" "./authorization-server.html"
       - run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-      - run: git add ./authorization-server.html
+      - run: git add "./authorization-server.html"
       - run: git commit -m "Update authorization server documentation."
       - run: git push origin main
