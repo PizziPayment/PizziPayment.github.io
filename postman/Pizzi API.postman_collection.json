@@ -162,7 +162,7 @@
 									"script": {
 										"exec": [
 											"if (pm.response.code == 204) {",
-											"    pm.environment.set(\"shop1_token\", null);",
+											"    pm.environment.set(\"user1_access_token\", null);",
 											"}"
 										],
 										"type": "text/javascript"
@@ -175,7 +175,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "{{user1_token}}",
+											"value": "{{user1_access_token}}",
 											"type": "string"
 										}
 									]
@@ -212,8 +212,8 @@
 													"if (pm.response.code == 200) {",
 													"    let response = pm.response.json();",
 													"",
-													"    pm.environment.set(\"user1_access_token\", response.access_token);",
-													"    pm.environment.set(\"user1_refresh_token\", response.refresh_token);",
+													"    pm.environment.set(\"shop1_access_token\", response.access_token);",
+													"    pm.environment.set(\"shop1_refresh_token\", response.refresh_token);",
 													"}"
 												],
 												"type": "text/javascript"
@@ -280,8 +280,8 @@
 													"if (pm.response.code == 200) {",
 													"    let response = pm.response.json();",
 													"",
-													"    pm.environment.set(\"user1_access_token\", response.access_token);",
-													"    pm.environment.set(\"user1_refresh_token\", response.refresh_token);",
+													"    pm.environment.set(\"shop1_access_token\", response.access_token);",
+													"    pm.environment.set(\"shop1_refresh_token\", response.refresh_token);",
 													"}"
 												],
 												"type": "text/javascript"
@@ -318,7 +318,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\":\"{{user1_refresh_token}}\"\n}",
+											"raw": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\":\"{{shop1_refresh_token}}\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -350,7 +350,7 @@
 							"script": {
 								"exec": [
 									"if (pm.response.code == 204) {",
-									"    pm.environment.set(\"shop1_token\", null);",
+									"    pm.environment.set(\"shop1_access_token\", null);",
 									"}"
 								],
 								"type": "text/javascript"
@@ -363,7 +363,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{shop1_token}}",
+									"value": "{{shop1_access_token}}",
 									"type": "string"
 								}
 							]
@@ -495,7 +495,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"{{user1_name}}\",\n    \"surname\": \"{{user1_surname}}\",\n    \"email\": \"{{user1_email}}\",\n    \"password\": \"{{user1_password}}\",\n    \"place\": {\n        \"address\": \"{{user1_address}}\",\n        \"city\": \"{{user1_city}}\",\n        \"zipcode\": \"{{user1_zipcode}}\"\n    }\n}",
+									"raw": "{\n    \"name\": \"{{user1_name}}\",\n    \"surname\": \"{{user1_surname}}\",\n    \"email\": \"michecl@exemple.com\",\n    \"password\": \"\",\n    \"place\": {\n        \"address\": \"{{user1_address}}\",\n        \"city\": \"{{user1_city}}\",\n        \"zipcode\": \"{{user1_zipcode}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1511,6 +1511,73 @@
 									""
 								]
 							}
+						}
+					]
+				},
+				{
+					"name": "Product Return",
+					"item": [
+						{
+							"name": "List Product Return Certificates",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/receipts/{{receipt_id}}/product_return_certificates",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"receipts",
+										"{{receipt_id}}",
+										"product_return_certificates"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Product Return Certificate",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receipt_item_id\": {{receipt_item_id}},\n    \"quantity\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{rsc_base_url}}/shops/me/receipts/{{receipt_id}}/product_return_certificates",
+									"host": [
+										"{{rsc_base_url}}"
+									],
+									"path": [
+										"shops",
+										"me",
+										"receipts",
+										"{{receipt_id}}",
+										"product_return_certificates"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
